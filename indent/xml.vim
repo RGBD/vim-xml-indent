@@ -9,16 +9,20 @@ set cpo&vim
 setlocal indentexpr=GetXmlIndent(v:lnum)
 setlocal indentkeys=o,O,*<Return>,<>>,<<>,/,{,}
 
-if !exists('b:xml_indent_open')
-  let b:xml_indent_open = '.\{-}<\a'
-  " pre tag, e.g. <address>
-  " let b:xml_indent_open = '.\{-}<[/]\@!\(address\)\@!'
+if !exists('b:xml_indent_tag_begin_open')
+  let b:xml_indent_tag_begin_open = '.\{-}<\a'
 endif
 
-if !exists('b:xml_indent_close')
-  let b:xml_indent_close = '.\{-}</'
-  " end pre tag, e.g. </address>
-  " let b:xml_indent_close = '.\{-}</\(address\)\@!'
+if !exists('b:xml_indent_tag_end_open')
+  let b:xml_indent_tag_end_open = '.\{-}<\/\a'
+endif
+
+if !exists('b:xml_indent_tag_self_close')
+  let b:xml_indent_tag_self_close = '.\{-}/>'
+endif
+
+if !exists('b:xml_indent_tag_close')
+  let b:xml_indent_tag_close = '.\{-}[^/%]>'
 endif
 
 let &cpo = s:keepcpo
@@ -66,9 +70,10 @@ fun! <SID>XmlIndentSum(lnum, style, add)
   let line = getline(a:lnum)
   if a:style == match(line, '^\s*</')
     return (s:shiftwidth() *
-          \  (<SID>XmlIndentWithPattern(line, b:xml_indent_open)
-          \ - <SID>XmlIndentWithPattern(line, b:xml_indent_close)
-          \ - <SID>XmlIndentWithPattern(line, '.\{-}/>'))) + a:add
+          \  (<SID>XmlIndentWithPattern(line, b:xml_indent_tag_begin_open) * 2
+          \ - <SID>XmlIndentWithPattern(line, b:xml_indent_tag_close) * 1
+          \ - <SID>XmlIndentWithPattern(line, b:xml_indent_tag_self_close) * 2
+          \ )) + a:add
   else
     return a:add
   endif

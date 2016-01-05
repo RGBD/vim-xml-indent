@@ -5,7 +5,7 @@ describe "Indenting multiline tags" do
     assert_correct_indenting <<-EOF
       <p
           a="a">
-        <q>
+        <q/>
       </p>
     EOF
   end
@@ -14,9 +14,9 @@ describe "Indenting multiline tags" do
     assert_correct_indenting <<-EOF
       <p>
         <q
-            a="a"\>
+            a="a"/>
         <q
-            a="a"\>
+            a="a"/>
       </p>
     EOF
   end
@@ -25,7 +25,7 @@ describe "Indenting multiline tags" do
     assert_correct_indenting <<-EOF
       <p
           a="a"
-      >
+          >
         <q>
           <r/>
         </q>
@@ -38,7 +38,7 @@ describe "Indenting multiline tags" do
       <p>
         <q
             a="a"
-        />
+            />
         <q/>
       </p>
     EOF
@@ -49,7 +49,7 @@ describe "Indenting multiline tags" do
       <p>
         <q
             a="a"
-        >foo<q/>
+            >foo</q>
       </p>
     EOF
   end
