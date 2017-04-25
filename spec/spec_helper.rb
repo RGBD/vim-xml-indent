@@ -12,37 +12,23 @@ Vimrunner::RSpec.configure do |config|
     vim
   end
 
-  def strip_and_unindent(string)
-    whitespace = string.scan(/^\s*/).first
-    string.split("\n").map do |line|
-      line.gsub /^#{whitespace}/, ''
-    end.join("\n").strip
+  def unindent(string)
+    string.split("\n").map { |x| x.gsub(/^\s*/, '') + "\n" }.join('')
   end
 
   def vim_indent(string)
-    sting = strip_and_unindent(string)
+    filename = 'test.xml'
 
-    filename = ENV['TMPDIR'].to_s + 'test.xml'
-
-    File.open filename, 'w' do |f|
-      f.write string
-    end
+    IO.write filename, string
 
     vim.edit filename
     vim.normal 'gg=G'
     vim.write
 
-    IO.read(filename).strip
+    IO.read(filename)
   end
 
   def assert_correct_indenting(string)
-    expect(vim_indent(string)).to eq strip_and_unindent(string)
-  end
-
-  def assert_balanced_indenting(string)
-    last_line = vim_indent(string).split("\n").last
-    last_line_ident = last_line.scan(/^\s*/).first.size
-
-    expect(last_line_ident).to eq 0
+    expect(vim_indent(unindent(string))).to eq string
   end
 end

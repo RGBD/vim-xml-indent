@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "Indenting multiline tags" do
   specify "nested tags" do
-    assert_correct_indenting <<-EOF
+    assert_correct_indenting <<~EOF
       <p
           a="a">
         <q/>
@@ -11,7 +11,7 @@ describe "Indenting multiline tags" do
   end
 
   specify "empty tags" do
-    assert_correct_indenting <<-EOF
+    assert_correct_indenting <<~EOF
       <p>
         <q
             a="a"/>
@@ -22,7 +22,7 @@ describe "Indenting multiline tags" do
   end
 
   specify "separate line tag ending" do
-    assert_correct_indenting <<-EOF
+    assert_correct_indenting <<~EOF
       <p
           a="a"
           >
@@ -34,7 +34,7 @@ describe "Indenting multiline tags" do
   end
 
   specify "separate line empty tag ending" do
-    assert_correct_indenting <<-EOF
+    assert_correct_indenting <<~EOF
       <p>
         <q
             a="a"
@@ -45,7 +45,7 @@ describe "Indenting multiline tags" do
   end
 
   specify "close on same line" do
-    assert_correct_indenting <<-EOF
+    assert_correct_indenting <<~EOF
       <p>
         <q
             a="a"

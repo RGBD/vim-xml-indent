@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "Indenting" do
   specify "nested tags" do
-    assert_correct_indenting <<-EOF
+    assert_correct_indenting <<~EOF
       <p>
         <q>
           <r>
@@ -17,7 +17,7 @@ describe "Indenting" do
   end
 
   specify "one line tags" do
-    assert_correct_indenting <<-EOF
+    assert_correct_indenting <<~EOF
       <p>
         <q>foo</q>
         <q>foo</q>
@@ -26,7 +26,7 @@ describe "Indenting" do
   end
 
   specify "empty tags" do
-    assert_correct_indenting <<-EOF
+    assert_correct_indenting <<~EOF
       <p>
         <q/>
         <q>
@@ -38,7 +38,7 @@ describe "Indenting" do
   end
 
   specify "nested tags with attributes" do
-    assert_correct_indenting <<-EOF
+    assert_correct_indenting <<~EOF
       <p a="a">
         <q a="a">
         </q>
@@ -48,7 +48,8 @@ describe "Indenting" do
   end
 
   specify "declaration" do
-    assert_correct_indenting <<-EOF
+    # actually, second line keeps it's indent
+    assert_correct_indenting <<~EOF
       <?xml version="1.0" encoding="UTF-8" ?>
       <p>
         <q>
@@ -58,11 +59,10 @@ describe "Indenting" do
   end
 
   specify "multiple tags in single line" do
-    assert_balanced_indenting <<-EOF
+    assert_correct_indenting <<~EOF
       <p><q>
           <r/>
       </q></p>
     EOF
   end
 end
-
